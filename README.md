@@ -6,6 +6,10 @@ Hello, welcome to my Disaster Response Pipeline project! In this project, I've d
 
 Disaster response is a critical task, and quick and accurate classification of messages is crucial for effective disaster management. My project focuses on creating a system that automates this classification process using machine learning techniques.
 
+## Code Repository
+
+The code for this project is available at: https://github.com/El-ham/Disaster_Categorizer
+
 ## Data Pipelines
 
 ### ETL Process
