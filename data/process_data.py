@@ -59,8 +59,8 @@ def clean_data(df):
         
         # convert column from string to numeric
         categories[column] = pd.to_numeric(categories[column])
-        if categories[column] not in (0, 1):
-            categories[column] = 1
+        # replace column values to 1 if they are other than 0 or 1
+        categories.loc[~categories[column].isin({0,1}), column] = 1
 
 # 5: Replace categories column in df with new category columns
 
