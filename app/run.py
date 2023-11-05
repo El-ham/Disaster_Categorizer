@@ -10,7 +10,8 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
-
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -39,7 +40,7 @@ def tokenize(text):
 
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
-df = pd.read_sql_table('DisasterResponse', engine)
+df = pd.read_sql_table('data/DisasterResponse', engine)
 del df['child_alone']
 # load model
 model = joblib.load("../models/classifier.pkl")
@@ -54,6 +55,10 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+    
+    # summing values in each category column and choose the 10 larger values. Then selecting the aformentioned columns and make a df called df_heat
+    df_heat =df[df.loc[:, 'related':'direct_report'].sum(axis=0).sort_values(ascending=False)[0:10].index.tolist()]
+    correlation_matrix = df_heat.corr()
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -75,6 +80,29 @@ def index():
                     'title': "Genre"
                 }
             }
+        },
+        {
+            'data': [
+                {
+            'uid': 'heatmap',
+            'z': correlation_matrix.values.tolist(),
+            'x': correlation_matrix.columns,
+            'y': correlation_matrix.columns,
+            'type': 'heatmap',
+            'colorscale': 'Viridis'
+                }
+            ],
+
+            'layout': {
+                'title': 'Correlation Heatmap',
+        'xaxis': {'title': 'Columns'},
+        'yaxis': {'title': 'Columns'}
+            }
+            
+            
+            
+            
+            
         }
     ]
     
