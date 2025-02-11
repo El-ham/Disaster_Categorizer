@@ -52,7 +52,7 @@ model = joblib.load("../models/classifier.pkl")
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
+    # Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
@@ -61,7 +61,7 @@ def index():
     correlation_matrix = df_heat.corr()
     
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
+    # Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
